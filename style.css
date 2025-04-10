@@ -72,21 +72,13 @@ button {
 }
 
 .destination-pipe.pipe-3 {
-    top: 120px;
+    top: 70px;
     left: 200px;
     text-align: center;
     background-color: lightgray;
     line-height: 80px;
 }
 
-.destination-pipe.pipe-4 {
-    top: 20px;
-    left: 250px;
-    text-align: center;
-    background-color: silver;
-    line-height: 180px;
-    height: 180px;
-}
 
 .connector {
     position: absolute;
