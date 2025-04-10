@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Air Conditioner Web Remote</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="./style.css"/>
+</head>
+<body>
+<div class="dashboard-container">
+    <div class="screen">
+        <div>
+            <p id="demo"></p>
+        </div>
+        <div style="color: black; position: relative; width: 300px; height: 220px; margin-bottom: 0px;">
+            <div class="pipe source-pipe">Pipe</div>
+            <div class="pipe destination-pipe pipe-1">P1</div>
+            <div class="pipe destination-pipe pipe-2">P2</div>
+            <div class="pipe destination-pipe pipe-3">A/C</div>
+            <div class="pipe destination-pipe pipe-4">Bath</div>
+            <div class="connector"></div>
+        </div>
+        <p>Power Output: 3.5kWh</p>
+    </div>
+
+    <div class="usage-panels">
+        <br>
+        <br>
+        <div class="water-usage-panel">
+            <h3>Total Water Circulated</h3>
+            <div class="water-usage-value"><span id="total-water-usage">0.0</span></div>
+            <div class="water-usage-unit">liters</div>
+        </div>
+        <div class="electricity-usage-panel">
+            <h3>Total Electricity Used</h3>
+            <div class="electricity-usage-value"><span id="total-electricity-used">0.00</span></div>
+            <div class="electricity-usage-unit">kWh</div>
+        </div>
+    </div>
+</div>
+    <div class="remote">
+        <div class="display">
+            <div class="power-status">OFF</div>
+            <div class="temperature">24 °C</div>
+            <div class="mode">COOL</div>
+            <div class="fan-speed">AUTO</div>
+        </div>
+
+        <div class="buttons">
+            <button class="power-button">Power</button>
+            <button class="mode-button">Mode</button>
+            <button class="fan-button">Fan</button>
+        </div>
+
+        <div class="temp-controls">
+            <button class="temp-up">+</button>
+            <button class="temp-down">-</button>
+        </div>
+    </div>
+<br>
+<script>
+    let pressed = false; // Declare and initialize the 'pressed' variable globally
+    const connector = document.querySelector('.connector'); // Get the connector element
+    const pipe3 = document.querySelector('.destination-pipe.pipe-3'); // Get the A/C pipe
+    const totalWaterUsageDisplay = document.getElementById('total-water-usage');
+    const totalElectricityUsedDisplay = document.getElementById('total-electricity-used');
+
+    const powerButton = document.querySelector('.power-button');
+    const displayPower = document.querySelector('.power-status');
+    const tempUpButton = document.querySelector('.temp-up');
+    const tempDownButton = document.querySelector('.temp-down');
+    const displayTemp = document.querySelector('.temperature');
+    const modeButton = document.querySelector('.mode-button');
+    const displayMode = document.querySelector('.mode');
+    const fanButton = document.querySelector('.fan-button');
+    const displayFan = document.querySelector('.fan-speed');
+
+    let isOn = false;
+    let currentTemp = 24;
+    const modes = ["COOL", "HEAT", "FAN", "DRY"];
+    let currentModeIndex = 0;
+    const fanSpeeds = ["AUTO", "LOW", "MED", "HIGH"];
+    let currentFanIndex = 0;
+    let waterUsageRate = 0.093 / 60; // Approximate liters per second for a 3.5kW evaporative AC
+    let totalWaterUsed = 0.0;
+    const electricityConsumptionRate = 3.5 / 3600; // 3.5 kWh / 3600 seconds = kWh per second
+    let totalElectricityUsed = 0.0;
+
+    function flowControl() {
+      let status;
+      if (isOn) { // Only flow if the remote is ON
+        status = "Turned on.&nbsp;Water is flowing through Pipe 2.";
+        connector.className = 'connector connecting-to-pipe-2';
+        pipe3.style.backgroundColor = 'red';
+      } else {
+        status = "Turned off.&nbsp;Water is flowing through Pipe 1.";
+        connector.className = 'connector connecting-to-pipe-1';
+        pipe3.style.backgroundColor = 'lightgray';
+      }
+      document.getElementById('demo').innerHTML = status;
+      console.log(status, 'Total Water Usage:', totalWaterUsed.toFixed(2), 'Total Electricity Used:', totalElectricityUsed.toFixed(2));
+    }
+
+    powerButton.addEventListener('click', () => {
+        isOn = !isOn;
+        displayPower.textContent = isOn ? "ON" : "OFF";
+        displayPower.classList.toggle('on', isOn);
+        flowControl(); // Update the flow based on the remote power
+    });
+
+    tempUpButton.addEventListener('click', () => {
+        if (isOn) {
+            currentTemp++;
+            displayTemp.textContent = `${currentTemp} °C`;
+        }
+    });
+
+    tempDownButton.addEventListener('click', () => {
+        if (isOn && currentTemp > 16) {
+            currentTemp--;
+            displayTemp.textContent = `${currentTemp} °C`;
+        }
+    });
+
+    modeButton.addEventListener('click', () => {
+        if (isOn) {
+            currentModeIndex = (currentModeIndex + 1) % modes.length;
+            displayMode.textContent = modes[currentModeIndex];
+        }
+    });
+
+    fanButton.addEventListener('click', () => {
+        if (isOn) {
+            currentFanIndex = (currentFanIndex + 1) % fanSpeeds.length;
+            displayFan.textContent = fanSpeeds[currentFanIndex];
+        }
+    });
+
+    function updateWaterUsage() {
+        if (isOn) {
+            totalWaterUsed += waterUsageRate;
+            totalWaterUsageDisplay.textContent = totalWaterUsed.toFixed(2);
+        }
+    }
+
+    function updateElectricityUsage() {
+        if (isOn) {
+            totalElectricityUsed += electricityConsumptionRate;
+            totalElectricityUsedDisplay.textContent = totalElectricityUsed.toFixed(2);
+        }
+    }
+
+    // Initial call to display the initial state and set initial pipe flow
+    flowControl();
+
+    // Periodically update the total water usage
+    setInterval(updateWaterUsage, 1000); // Update every 1 second
+
+    // Periodically update the total electricity usage
+    setInterval(updateElectricityUsage, 1000); // Update every 1 second
+</script>
+
+</body>
+</html>

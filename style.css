@@ -1,0 +1,277 @@
+/* style.css */
+
+body {
+    background-color: darkgray;
+    font-family: sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centers items horizontally in the body */
+    transform: scale(1.2);
+    transform-origin: top center;
+}
+
+.dashboard-container {
+    display: flex;
+    align-items: flex-start; /* Align items to the top */
+    margin-bottom: 20px; /* Add space below the dashboard container */
+}
+
+.screen {
+    background-color: #333;
+    color: #fff;
+    border-radius: 15px;
+    padding: 10px;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px; /* Add some space between graphics and remote */
+    margin-bottom: 0px; /* Add space below the screen */
+    flex-shrink: 0; /* Prevent shrinking of the screen */
+}
+
+button {
+    display: flex;
+    margin-top: 20px; /* Add space below the screen */
+}
+
+.pipe-container {
+    position: relative;
+    width: 300px;
+    height: 250px;
+    margin-bottom: 0px;
+}
+
+.pipe {
+    width: 40px;
+    height: 80px;
+    background-color: #808080; /* Grey for the pipe */
+    border-radius: 8px;
+    position: absolute;
+}
+
+.source-pipe {
+    top: 20px;
+    left: 20px;
+    text-align: center;
+    line-height: 80px;
+}
+
+.destination-pipe.pipe-1 {
+    top: 20px;
+    left: 150px;
+    text-align: center;
+    line-height: 80px;
+}
+
+.destination-pipe.pipe-2 {
+    top: 120px;
+    left: 150px;
+    text-align: center;
+    line-height: 80px;
+}
+
+.destination-pipe.pipe-3 {
+    top: 120px;
+    left: 200px;
+    text-align: center;
+    background-color: lightgray;
+    line-height: 80px;
+}
+
+.destination-pipe.pipe-4 {
+    top: 20px;
+    left: 250px;
+    text-align: center;
+    background-color: silver;
+    line-height: 180px;
+    height: 180px;
+}
+
+.connector {
+    position: absolute;
+    background-color: #add8e6; /* Light blue for water */
+    border-radius: 5px;
+}
+
+/* Styles for connecting to Pipe 1 (Horizontal - No Change) */
+.connector.connecting-to-pipe-1 {
+    top: 50px; /* Adjust to align */
+    left: 60px; /* Adjust to start */
+    width: 90px; /* Adjust to reach */
+    height: 20px; /* Thickness */
+    background-image: linear-gradient(to right, #add8e6 0%, white 50%, #add8e6 100%);
+    background-size: 200% 100%;
+    animation: flow-gradient-horizontal 2s linear infinite;
+}
+
+@keyframes flow-gradient-horizontal {
+    to {
+      background-position: -100% 0;
+    }
+  }
+
+/* Styles for connecting to Pipe 2 (Diagonal Connection) */
+.connector.connecting-to-pipe-2 {
+    top: 50px; /* Start aligned with the top of the source pipe */
+    left: 50px; /* Start at the right of the source pipe */
+    width: 140px; /* Adjust the length of the diagonal */
+    height: 20px; /* Thickness of the connector */
+    transform: rotate(45deg); /* Rotate to create a diagonal */
+    transform-origin: top left; /* Set the rotation origin */
+    background-image: linear-gradient(to right, #add8e6 0%, white 50%, #add8e6 100%);
+    background-size: 200% 100%;
+    animation: flow-gradient-diagonal 2s linear infinite;
+}
+
+@keyframes flow-gradient-diagonal {
+    to {
+      background-position: -100% 0;
+    }
+  }
+
+/* Style for making pipe-3 red when connected to pipe-2 */
+.connector.connecting-to-pipe-2 + div .destination-pipe.pipe-3 {
+    background-color: red;
+}
+
+/* Styles for the AC Remote Simulator */
+.remote {
+    background-color: #333;
+    color: #fff;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+    width: 250px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 0px; /* Add some space between graphics and remote */
+}
+
+.display {
+    background-color: #444;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    width: 100%;
+    text-align: center;
+}
+
+.power-status {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.power-status.on {
+    color: limegreen;
+}
+
+.temperature {
+    font-size: 2em;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.mode, .fan-speed {
+    font-size: 0.9em;
+}
+
+.buttons, .temp-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+    width: 100%;
+    justify-content: space-around;
+}
+
+.buttons button, .temp-controls button {
+    background-color: #555;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+}
+
+.buttons button:hover, .temp-controls button:hover {
+    background-color: #777;
+}
+
+.temp-controls {
+    justify-content: center;
+}
+
+.temp-controls button {
+    padding: 10px 20px;
+    font-size: 1.2em;
+}
+
+/* Styles for the water usage panel */
+.water-usage-panel {
+    background-color: #333; /* Same color as dashboard */
+    color: #fff; /* White text for contrast */
+    border-radius: 15px; /* Same border radius as dashboard */
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3); /* Same shadow as dashboard */
+    margin-bottom: 20px; /* Add space below the water usage panel */
+}
+
+.water-usage-panel h3 {
+    margin-top: 0;
+    color: #fff; /* White heading */
+}
+
+.water-usage-value {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: white; /* Cyan value for emphasis */
+}
+
+.water-usage-unit {
+    color: #ccc; /* Light gray unit */
+    font-size: 0.9em;
+    margin-top: 5px;
+}
+
+/* Container for the usage panels to stack them vertically */
+.usage-panels {
+    display: flex;
+    flex-direction: column;
+    margin-left: 20px; /* Space between dashboard and panels */
+}
+
+        /* Styles for the electricity usage panel (inline for now, can move to CSS) */
+        .electricity-usage-panel {
+            background-color: #333; /* Same color as dashboard */
+            color: #fff; /* White text for contrast */
+            border-radius: 15px; /* Same border radius as dashboard */
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3); /* Same shadow as dashboard */
+            margin-top: 20px; /* Space below water usage panel */
+        }
+
+        .electricity-usage-panel h3 {
+            margin-top: 0;
+            color: #fff; /* White heading */
+        }
+
+        .electricity-usage-value {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: white; /* Yellow value for emphasis */
+        }
+
+        .electricity-usage-unit {
+            color: #ccc; /* Light gray unit */
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
